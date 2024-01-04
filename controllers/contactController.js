@@ -51,22 +51,17 @@ const putContact=asyncHandler(async(req,res)=>{
     );
     res.status(200).json(updatedContact);
 });
-const deleteContact = asyncHandler(async (req, res, next) => {
-    try {
-      const contact = await Contact.findById(req.params.id);
-      if (!contact) {
-        const error = new Error("Contact Not found");
-        error.code = errorConstants.NOT_FOUND; // Assign the error code
-        throw error;
-      }
-  
-      await Contact.findByIdAndRemove(req.params.id);
-      res.status(200).json(contact);
-    } catch (error) {
-      next(error); // Pass the error to the errorHandler middleware
+const deleteContact =asyncHandler(async(req,res)=>{
+    const contact = await Contact.findById(req.params.id);
+    if(!contact)
+    {
+        res.status(404);
+        throw new Error("Contact Not found");
     }
-  });
-  
+    await Contact.deleteOne({_id: req.params.id});
+    res.status(200).json(contact)
+    
+});
 
 module.exports = {getContact,
                  getContactById,

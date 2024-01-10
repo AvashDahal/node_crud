@@ -1,4 +1,4 @@
-const { errorConstants } = require("../constants");
+const { errorConstants } = require("../constants.js");
 
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode || 500; // Set default status code to 500

@@ -4,9 +4,11 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const errorHandler= require("./middleware/errorHandler")
+const errorHandler= require("./middleware/errorHandler");
+const sessionMiddleware = require('./middleware/sessionMiddleware');
 db();
 const app = express();
+app.use(sessionMiddleware);
 
 app.use(express.json());
 const PORT = process.env.PORT || 4000;

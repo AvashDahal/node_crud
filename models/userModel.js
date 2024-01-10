@@ -15,6 +15,19 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add the user password"],
     },
+    confirmPassword: {
+      type: String,
+      required: [true, "Please confirm the password"],
+      validate: {
+        validator: function (value) {
+          return this.password === value;
+        },
+        message: "Passwords do not match",
+      },
+    },
+    photo: {
+      type: String, // Assuming you'll store the photo URL/path as a string
+    },
   },
   {
     timestamps: true,

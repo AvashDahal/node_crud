@@ -11,7 +11,7 @@ const registerUser =asyncHandler(async(req,res)=>{
         
        return res.status(400).json({error:"All fields are mandatory"});
     }
-    if(password!=confirmPassword)
+    if(password!==confirmPassword)
     {
         return res.status(400).json({error:"Password does not match"});
     }
@@ -25,21 +25,22 @@ const registerUser =asyncHandler(async(req,res)=>{
     //We need to hash password
     const hashedPassword= await bcrypt.hash(password,10);
     console.log("Hashed Passhword: ",hashedPassword);
+    
     try {
         const user = await User.create({
           username,
           email,
-          password: hashedPassword
+          password,
+          confirmPassword,
+          // Optionally, you can also include the 'photo' field here if you're receiving it from the frontend
         });
-      
-        console.log(`User created ${user}`);
+    
         return res.status(201).json({ _id: user._id, email: user.email });
-      
       } catch (error) {
         console.error('Error creating user:', error);
         return res.status(400).json({ error: 'User data were not valid' });
-      }
-      
+      }  
+
 }); 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
